@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Super Duper Powerful Dope Pork Cutlet Machine Learning Prediction Vision!</title>
+  </head>
+  <body>
+    <h1>SUPER DUPER<br />POWERFUL DOPE<br />PORK CUTLET
+      <br />MACHINE LEARNING<br />PERDICTION VISION!</h1>
+    <b>Built with super high quality photos and powerful finger workforce.<br />
+    Powered by Micro$oft Custom Vision</b><br />
+    <input type="text" id="urlInput" placeholder="Type image url here"/><br />
+    <button onclick="run()">Click to see if the image contains pork cutlet!</button><br />
+    <p id="result"></p>
+    <img id="urlImg" />
+    <script>
+      function run(){
+        var imgUrl = document.getElementById("urlInput").value
+        var resultTxt = document.getElementById("result")
+        document.getElementById("urlImg").src = imgUrl
+        var url = "https://southcentralus.api.cognitive.microsoft.com/customvision/v1.0/Prediction/38d12e2f-d065-4fa1-abe5-aa25eb953dc0/url"
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Prediction-Key", "d100386f40b94b378d44391c3fd7a754");
+        var myInit = { method: 'POST',
+                       headers: myHeaders,
+                       body: JSON.stringify({"url": imgUrl}),
+                      //  mode: 'cors', cache: 'default'
+                     };
+        fetch(url, myInit).then(function(response) {
+          var contentType = response.headers.get("content-type");
+          if(contentType && contentType.includes("application/json")) {
+            return response.json();
+          }
+          throw new TypeError("Oops, we haven't got JSON!");
+        }).then(function(json) {
+        /* process your JSON further */
+        console.log(json);
+        var resultString = "";
+        console.log(json.Predictions);
+        json.Predictions.forEach((item)=>{
+          resultString += `앗! 매우 놀랍군요! 이 이미지는 ${item.Probability} 의 확률로, ${item.Tag} 을(를) 포함하고 있습니다! 매우 의미있는 발견입니다!<br />`;
+
+        });
+        resultTxt.innerHTML = resultString;
+       }).catch(function(error) { console.log(error); });
+      }
+    </script>
+  </body>
+</html>
