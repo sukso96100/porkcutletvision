@@ -16,6 +16,7 @@
       function run(){
         var imgUrl = document.getElementById("urlInput").value
         var resultTxt = document.getElementById("result")
+        resultTxt.innerHTML = "正在处理。请等一下！您马上可以得到处理结果！";
         document.getElementById("urlImg").src = imgUrl
         var url = "https://southcentralus.api.cognitive.microsoft.com/customvision/v1.0/Prediction/38d12e2f-d065-4fa1-abe5-aa25eb953dc0/url"
         var myHeaders = new Headers();
